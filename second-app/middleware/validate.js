@@ -13,3 +13,16 @@ exports.validateLogin = [
     body('email').isEmail().withMessage('Please enter a valid email'),
     body('password').notEmpty().withMessage('Password is required')
 ];
+
+exports.validateTicket = [
+    body('clientName').trim().isLength({ max: 30 }).notEmpty()
+        .withMessage('Client name is required and must be max 30 characters'),
+    body('clientAddress').trim().isLength({ max: 100 }).notEmpty()
+        .withMessage('Client address is required and must be max 100 characters'),
+    body('email').trim().isLength({ max: 30 }).isEmail()
+        .withMessage('Please enter a valid email (max 30 characters)'),
+    body('phoneNumber').isInt()
+        .withMessage('Phone number must be numeric'),
+    body('amount').isInt({ min: 0 })
+        .withMessage('Amount must be a positive integer')
+];

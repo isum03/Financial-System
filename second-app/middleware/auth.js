@@ -4,13 +4,14 @@ const db = require("../Config/db");
 const auth = async (req, res, next) => {
     try {
         const token = req.header("Authorization")?.split(" ")[1];
+        console.log("Received token:", token);
         
         if (!token) {
             return res.status(401).json({ message: "No token provided" });
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
+        console.log("Decoded token:", decoded);
         // Check if token is valid and active in sessions
         const [sessions] = await db.execute(
             `SELECT * FROM user_sessions 
