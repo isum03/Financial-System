@@ -49,38 +49,30 @@ exports.createTicket = async (req, res) => {
 
 exports.getTickets = async (req, res) => {
     try {
-        console.log('--- Get Tickets Request ---');
-        console.log('User Role:', req.user.role_name);
-        console.log('User ID:', req.user.user_id);
-
         let query = `
             SELECT t.*, 
                    c.username as creator_name,
-                   a.username as assignee_name
+                   c.email as creator_email,
+                   a.username as assignee_name,
+                   a.email as assignee_email,
+                   r.role_name as creator_role
             FROM ticket t
             LEFT JOIN users c ON t.created_by = c.user_id
             LEFT JOIN users a ON t.assigned_to = a.user_id
+            LEFT JOIN roles r ON c.role_id = r.role_id
         `;
         
         let params = [];
         if (req.user.role_name !== 'admin') {
             query += ` WHERE t.created_by = ? OR t.assigned_to = ?`;
             params = [req.user.user_id, req.user.user_id];
-            console.log('Non-admin query with params:', { query, params });
-        } else {
-            console.log('Admin query:', query);
         }
 
         const [tickets] = await db.execute(query, params);
-        console.log('Found tickets count:', tickets.length);
-        console.log('First ticket sample:', tickets[0]);
-
         res.json(tickets);
 
     } catch (error) {
         console.error("Get Tickets Error:", error);
-        console.error("SQL State:", error.sqlState);
-        console.error("SQL Message:", error.sqlMessage);
         res.status(500).json({ message: "Server error" });
     }
 };
@@ -176,6 +168,65 @@ exports.deleteTicket = async (req, res) => {
 
     } catch (error) {
         console.error("Delete Ticket Error:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+exports.assignTicket = async (req, res) => {
+    try {
+        const { ticketId } = req.params;
+        const { assignedTo } = req.body;
+
+        // First check if ticket exists
+        const [tickets] = await db.execute(
+            'SELECT * FROM ticket WHERE serial_no = ?',
+            [ticketId]
+        );
+
+        if (tickets.length === 0) {
+            return res.status(404).json({ message: "Ticket not found" });
+        }
+
+        // Check if the assignee exists and is a broker
+        const [brokers] = await db.execute(
+            `SELECT u.user_id, u.username, r.role_name 
+             FROM users u 
+             JOIN roles r ON u.role_id = r.role_id 
+             WHERE u.user_id = ? AND r.role_name = 'broker' AND u.is_active = 1`,
+            [assignedTo]
+        );
+
+        if (brokers.length === 0) {
+            return res.status(400).json({ 
+                message: "Invalid assignee - User must be an active broker",
+                details: "Please select a valid broker to assign this ticket"
+            });
+        }
+
+        // Update ticket assignment
+        await db.execute(
+            `UPDATE ticket 
+             SET assigned_to = ?,
+                 status = 'assigned',
+                 assigned_at = CURRENT_TIMESTAMP
+             WHERE serial_no = ?`,
+            [assignedTo, ticketId]
+        );
+
+        // Get assignee details for response
+        const assignee = brokers[0];
+
+        res.json({ 
+            message: "Ticket assigned successfully",
+            assignee: {
+                id: assignee.user_id,
+                username: assignee.username,
+                role: assignee.role_name
+            }
+        });
+
+    } catch (error) {
+        console.error("Assign Ticket Error:", error);
         res.status(500).json({ message: "Server error" });
     }
 };

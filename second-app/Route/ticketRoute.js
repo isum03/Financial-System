@@ -2,20 +2,51 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const roleCheck = require('../middleware/roleCheck');
-const { validateTicket } = require('../middleware/validate');
+const { validateTicket, validateTicketAssignment  } = require('../middleware/validate');
 const { 
     createTicket,
     getTickets,
     getTicketById,
     updateTicket,
-    deleteTicket 
+    deleteTicket,
+    assignTicket 
 } = require('../controllers/ticketController');
-//router.post('/', auth, roleCheck(['financial_planner', 'mortgage_broker']), validateTicket, createTicket);
-//router.post('/', auth, roleCheck(['financial_planner', 'mortgage_broker']), validateTicket, createTicket);
-router.post('/', auth, createTicket);
+
+// Create ticket (only financial planners)
+router.post('/', 
+    auth, 
+    roleCheck(['planner']), 
+    validateTicket, 
+    createTicket
+);
+
+// Get all tickets
 router.get('/', auth, getTickets);
+
+// Get specific ticket
 router.get('/:id', auth, getTicketById);
-router.put('/:id', auth, roleCheck(['financial_planner', 'mortgage_broker']), validateTicket, updateTicket);
-router.delete('/:id', auth, roleCheck(['admin']), deleteTicket);
+
+// Assign ticket (only financial planners can assign)
+router.post('/:ticketId/assign',
+    auth,
+    roleCheck(['planner']),
+    validateTicketAssignment,
+    assignTicket
+);
+
+// Update ticket (both roles can update)
+router.put('/:id', 
+    auth, 
+    roleCheck(['planner', 'broker']), 
+    validateTicket, 
+    updateTicket
+);
+
+// Delete ticket (admin only)
+router.delete('/:id', 
+    auth, 
+    roleCheck(['admin']), 
+    deleteTicket
+);
 
 module.exports = router;

@@ -15,14 +15,51 @@ exports.validateLogin = [
 ];
 
 exports.validateTicket = [
-    body('clientName').trim().isLength({ max: 30 }).notEmpty()
-        .withMessage('Client name is required and must be max 30 characters'),
-    body('clientAddress').trim().isLength({ max: 100 }).notEmpty()
-        .withMessage('Client address is required and must be max 100 characters'),
-    body('email').trim().isLength({ max: 30 }).isEmail()
-        .withMessage('Please enter a valid email (max 30 characters)'),
-    body('phoneNumber').isInt()
-        .withMessage('Phone number must be numeric'),
-    body('amount').isInt({ min: 0 })
-        .withMessage('Amount must be a positive integer')
+    body('clientName')
+        .trim()
+        .isLength({ max: 100 })  // Changed to match varchar(100)
+        .notEmpty()
+        .withMessage('Client name is required and must be max 100 characters'),
+    
+    body('clientAddress')
+        .trim()
+        .notEmpty()
+        .withMessage('Client address is required'),
+    
+    body('email')
+        .trim()
+        .isLength({ max: 100 })  // Changed to match varchar(100)
+        .isEmail()
+        .withMessage('Please enter a valid email (max 100 characters)'),
+    
+    body('phoneNumber')
+        .trim()
+        .isLength({ max: 20 })   // Changed to match varchar(20)
+        .matches(/^[0-9+\-\s()]*$/)  // Allow phone number formatting
+        .withMessage('Please enter a valid phone number'),
+    
+    body('amount')
+        .isFloat({ min: 0 })     // Changed to isFloat for decimal(15,2)
+        .withMessage('Amount must be a positive number')
+];
+
+
+// ...existing code...
+
+exports.validateTicketAssignment = [
+    body('assignedTo')
+        .isInt()
+        .notEmpty()
+        .withMessage('Valid assignee ID is required'),
+    
+    body('status')
+        .optional()
+        .isIn(['pending', 'in_progress', 'completed', 'cancelled'])
+        .withMessage('Invalid status value'),
+        
+    body('notes')
+        .optional()
+        .trim()
+        .isString()
+        .withMessage('Notes must be text')
 ];
