@@ -1,0 +1,52 @@
+/* Styles specific to the KeyFeatures component */
+.key-features-section {
+    padding: 50px 20px;
+    text-align: center;
+    margin-top: 100px;
+}
+  
+.key-features-title { /* Matched JS */
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    font-weight: bold;
+}
+  
+.features-grid {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 30px;
+    text-align: left;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+  
+.feature-item {
+    flex-basis: calc(33.333% - 40px); /* Adjust based on gap */
+    min-width: 250px;
+    padding: 20px;
+}
+  
+.feature-item h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+  
+.feature-item p {
+    color: #555;
+    font-size: 0.95rem;
+}
+  
+  /* Basic Responsive Example */
+@media (max-width: 768px) {
+    .features-grid {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .feature-item {
+      flex-basis: 80%;
+      text-align: center;
+    }
+}

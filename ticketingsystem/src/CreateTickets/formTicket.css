@@ -1,0 +1,146 @@
+/* src/components/CreateTicketForm/CreateTicketForm.css */
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+.create-ticket-container {
+  flex: 1;
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 30px;
+  box-sizing: border-box;
+}
+  
+  .form-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #000;
+  }
+  
+  .form-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 40px;
+  }
+  
+  .ticket-form {
+    /* No specific styles needed here unless using grid for overall form */
+  }
+  
+  .form-group {
+    display: flex;
+    align-items: center; /* Align label and input vertically */
+    margin-bottom: 20px; /* Space between form groups */
+    gap: 15px; /* Space between label and input */
+  }
+  
+  .form-label {
+    flex-basis: 150px; /* Fixed width for labels */
+    text-align: left; /* Align label text to the left (as per image) */
+    font-weight: 500; /* Slightly bolder labels */
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .form-input {
+    flex-grow: 1; /* Allow input to take remaining space */
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #e9ecef; /* Light grey background like image placeholder */
+    /* Remove default browser appearance if needed */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    min-height: 38px; /* Ensure consistent height like placeholders */
+  }
+  
+  /* Style for potentially larger inputs like address */
+  .form-input-large {
+    min-height: 60px; /* Taller input */
+    /* If using textarea: */
+    /* resize: vertical;  */
+  }
+  
+  .form-input:focus {
+    outline: none;
+    border-color: #80bdff; /* Highlight focus */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    background-color: #fff; /* Change background on focus */
+  }
+  
+  .contact-details-heading {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-top: 40px; /* Space above the heading */
+    margin-bottom: 25px;
+    /* border-bottom: 1px solid #eee; /* Optional separator */
+    /* padding-bottom: 10px; */
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    gap: 15px; /* Space between buttons */
+    margin-top: 40px; /* Space above buttons */
+  }
+  
+  .cancel-button,
+  .submit-button-form {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+  
+  .cancel-button {
+    background-color: #c22424; /* Brownish color */
+    color: #fff;
+  }
+  
+  .submit-button-form {
+    background-color: #1b8d36; /* Greenish color */
+    color: #fff;
+  }
+  
+  .cancel-button:hover,
+  .submit-button-form:hover {
+    opacity: 0.85; /* Slight fade on hover */
+  }
+  
+  /* Basic Responsive Adjustments */
+  @media (max-width: 600px) {
+    .form-group {
+      flex-direction: column; /* Stack label and input */
+      align-items: flex-start; /* Align items to the start */
+      gap: 5px; /* Reduce gap when stacked */
+    }
+  
+    .form-label {
+      flex-basis: auto; /* Allow label width to adjust */
+      margin-bottom: 3px; /* Small space below label */
+    }
+  
+    .form-input {
+      width: 100%; /* Make input take full width */
+    }
+  
+    .form-actions {
+      flex-direction: column; /* Stack buttons */
+      align-items: stretch; /* Make buttons full width */
+    }
+  
+    .cancel-button,
+    .submit-button {
+      width: 100%; /* Full width buttons */
+    }
+  }

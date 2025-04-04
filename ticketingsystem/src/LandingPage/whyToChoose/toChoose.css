@@ -1,0 +1,36 @@
+/* Styles specific to the WhyChooseUs component */
+.why-choose-us-section {
+    padding: 50px 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+  
+.why-choose-us-title { /* Matched JS */
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: bold;
+}
+  
+.why-choose-us-list { /* Matched JS */
+    list-style: none;
+    padding: 0;
+}
+  
+.why-choose-us-list li {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    padding-left: 25px;
+    position: relative;
+    color: #333;
+}
+  
+  /* Custom diamond bullet */
+.why-choose-us-list li::before {
+    content: '◆';
+    position: absolute;
+    left: 0;
+    top: 0; /* Adjust as needed */
+    color: #3a7bd5; /* Example blue color */
+    font-size: 1.2em;
+}

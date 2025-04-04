@@ -1,0 +1,80 @@
+/* Styles specific to the HowItWorks component */
+.how-it-works-section {
+    padding: 50px 0;
+}
+  
+.how-it-works-content {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+  
+.how-it-works-text {
+    flex: 1;
+    min-width: 300px;
+}
+  
+.how-it-works-title { /* Matched JS */
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+  
+.how-it-works-text .step h3 { /* Matched JS */
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+  
+.how-it-works-text .step p { /* Matched JS */
+    color: #555;
+    margin-bottom: 25px;
+    font-size: 0.95rem;
+}
+  
+.how-it-works-image-container { /* Matched JS */
+    flex: 1;
+    min-width: 300px;
+    background-color: #4A5CA5; /* Estimated blue background */
+    padding: 30px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+.how-it-works-image { /* Matched JS */
+      /* max-width: 100% is handled globally */
+    border-radius: 5px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+  
+.how-it-works-button { /* Matched JS */
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+    margin-top: 10px;
+}
+  
+.how-it-works-button:hover {
+    background-color: #333;
+}
+  
+  /* Basic Responsive Example */
+@media (max-width: 768px) {
+    .how-it-works-content {
+      flex-direction: column;
+    }
+    .how-it-works-image-container {
+       margin-top: 20px;
+    }
+}

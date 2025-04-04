@@ -1,0 +1,86 @@
+/* Styles specific to the Footer component */
+.app-footer {
+  background-color: #f8f8f8;
+  color: #555;
+  padding: 40px 30px 20px 30px;
+  font-size: 0.9rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+  
+.footer-content {
+    display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-bottom: 30px;
+  max-width: 1200px; /* Increased max-width */
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+  
+  /*.footer-left {
+    /* Flex properties if needed *
+  }
+  */
+  .footer-logo { /* Matched JS */
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .social-links a { /* Matched JS */
+    display: inline-block;
+    margin-right: 15px;
+    color: #777;
+    font-size: 1.2rem; /* Adjust if using text vs icons */
+    transition: color 0.2s ease;
+  }
+  
+  .social-links a:hover {
+    color: #000;
+  }
+  
+ /* .footer-right {
+    /* Flex properties if needed /
+  }*/
+  
+  .footer-right h4 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .footer-right p {
+    margin-bottom: 8px;
+  }
+  
+  .footer-bottom {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    font-size: 0.85rem;
+    color: #888;
+  }
+  
+  /* Basic Responsive Example */
+  @media (max-width: 768px) {
+    .footer-content {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .footer-left, .footer-right {
+      width: 100%;
+    }
+  
+    .social-links {
+      margin-top: 10px;
+    }
+  }

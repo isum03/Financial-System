@@ -1,0 +1,129 @@
+/* src/components/SignUpForm/SignUpForm.css */
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+.signup-container {
+  flex: 1;
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 40px;
+  box-sizing: border-box;
+    /* background-color: #f8f9fa; /* Optional light background */
+    /* border-radius: 8px; */
+    /* box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional subtle shadow */
+}
+  
+  .signup-title {
+    text-align: center;
+    font-size: 2.8rem; /* Larger title */
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #000;
+  }
+  
+  .signup-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 40px;
+  }
+  
+  .signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px; /* Space between form elements */
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 15px; /* Space between first and last name */
+  }
+  
+  .form-input,
+  .form-select { /* Apply base styles to both inputs and select */
+    width: 100%; /* Default to full width */
+    padding: 14px 18px; /* Adjust padding for height/comfort */
+    border: none; /* No border as per image */
+    border-radius: 8px; /* Rounded corners */
+    background-color: #eaf1fb; /* Light blueish-grey background */
+    font-size: 1rem;
+    color: #333; /* Text color when typing */
+    box-sizing: border-box; /* Include padding in width calculation */
+  }
+  
+  .form-input::placeholder,
+  .form-select { /* Style placeholder text and select default */
+    color: #8a99b0; /* Placeholder text color */
+    opacity: 1; /* Ensure placeholder is visible */
+  }
+  
+  .form-input-half {
+    width: 50%; /* Make first/last name take half width */
+  }
+  
+  /* Style the select dropdown specifically */
+  .form-select {
+    appearance: none; /* Remove default browser arrow */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    /* Add custom arrow or leave plain if desired */
+     background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%238a99b0%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+     background-repeat: no-repeat;
+     background-position: right 15px center;
+     background-size: 10px 10px;
+     padding-right: 40px; /* Make space for the arrow */
+  }
+  
+  /* Change select color when an option is selected */
+  .form-select:valid {
+    color: #333;
+  }
+  .form-select option {
+    color: #333; /* Ensure options have standard text color */
+  }
+  
+  /* Focus styles (optional but good UX) */
+  .form-input:focus,
+  .form-select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(50, 100, 200, 0.3); /* Example focus ring */
+    background-color: #fff; /* White background on focus */
+  }
+  
+  .submit-button {
+    padding: 14px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #1a0dab; /* Dark blue/purple color */
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 10px; /* Add some space above the button */
+  }
+  
+  .submit-button:hover {
+    background-color: #13097c; /* Slightly darker shade on hover */
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .signup-container {
+        padding: 20px;
+        margin: 20px auto;
+    }
+    .form-row {
+        flex-direction: column; /* Stack first/last name */
+        gap: 18px; /* Keep consistent gap */
+    }
+    .form-input-half {
+        width: 100%; /* Full width when stacked */
+    }
+    .signup-title {
+        font-size: 2.2rem;
+    }
+  }
