@@ -3,8 +3,10 @@ const jwt = require("jsonwebtoken");
 const db = require("../Config/db");
 const { validationResult } = require("express-validator");
 
+//create accounts with encrypted passwords
 exports.signup = async (req, res) => {
     try {
+        // Validate request data
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
@@ -61,6 +63,7 @@ exports.signup = async (req, res) => {
     }
 };
 
+//authnticate users with JWT tokens
 exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -97,12 +100,13 @@ exports.login = async (req, res) => {
             { expiresIn: "24h" }
         );
 
-        // Store session
+        // creation of user sessions
         await db.execute(
             `INSERT INTO user_sessions (user_id, token) VALUES (?, ?)`,
             [user.user_id, token]
         );
 
+        //return user data and token
         res.json({
             token,
             user: {

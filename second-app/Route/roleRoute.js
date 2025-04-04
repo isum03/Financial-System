@@ -9,7 +9,9 @@ const {
     deleteRole 
 } = require('../controllers/roleController');
 
+//get all routes
 router.get('/', auth, getRoles);
+//create new user roles
 router.post('/', auth, roleCheck(['admin']), createRole);
 router.put('/:id', auth, roleCheck(['admin']), updateRole);
 router.delete('/:id', auth, roleCheck(['admin']), deleteRole);

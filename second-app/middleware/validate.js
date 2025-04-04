@@ -1,5 +1,6 @@
 const { body } = require('express-validator');
 
+//user signup validation
 exports.validateSignup = [
     body('firstName').trim().notEmpty().withMessage('First name is required'),
     body('lastName').trim().notEmpty().withMessage('Last name is required'),
@@ -9,11 +10,13 @@ exports.validateSignup = [
     body('roleId').isInt().withMessage('Valid role ID is required')
 ];
 
+//user login validation
 exports.validateLogin = [
     body('email').isEmail().withMessage('Please enter a valid email'),
     body('password').notEmpty().withMessage('Password is required')
 ];
 
+//validate create and update ticket
 exports.validateTicket = [
     body('clientName')
         .trim()
@@ -43,9 +46,7 @@ exports.validateTicket = [
         .withMessage('Amount must be a positive number')
 ];
 
-
-// ...existing code...
-
+//assigning ticket validation
 exports.validateTicketAssignment = [
     body('assignedTo')
         .isInt()

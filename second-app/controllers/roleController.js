@@ -1,5 +1,5 @@
 const db = require('../Config/db');
-
+//get all roles
 exports.getRoles = async (req, res) => {
     try {
         const [roles] = await db.execute(
@@ -11,7 +11,7 @@ exports.getRoles = async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 };
-
+//create new roles
 exports.createRole = async (req, res) => {
     try {
         const { roleName, description } = req.body;
@@ -25,7 +25,7 @@ exports.createRole = async (req, res) => {
         if (existingRoles.length > 0) {
             return res.status(400).json({ message: "Role already exists" });
         }
-
+        //Inserts a new role
         const [result] = await db.execute(
             'INSERT INTO roles (role_name, description) VALUES (?, ?)',
             [roleName, description]
@@ -40,7 +40,7 @@ exports.createRole = async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 };
-
+//update the role
 exports.updateRole = async (req, res) => {
     try {
         const { roleName, description } = req.body;
@@ -57,7 +57,7 @@ exports.updateRole = async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 };
-
+//delete role
 exports.deleteRole = async (req, res) => {
     try {
         const roleId = req.params.id;
