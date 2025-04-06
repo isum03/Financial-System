@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './signup.css';
 import Footer from '../Headers, Footer/Footer';
+import { authService } from '../services/auth';
 
 function SignUp() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
-    role: '',
     username: '',
     password: '',
+    roleId: '' // This will store the numeric role ID
   });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,11 +26,35 @@ function SignUp() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Sign Up Data:', formData);
-    alert('Account creation submitted! Check console.');
-    // Add API call logic here
+    setError('');
+    setLoading(true);
+
+    try {
+      // Map the role selection to role IDs
+      const roleMapping = {
+        'admin': 1,
+        'planner': 2,
+        'broker': 3
+      };
+
+      const userData = {
+        ...formData,
+        roleId: parseInt(formData.roleId) // Ensure roleId is a number
+      };
+
+      const response = await authService.signup(userData);
+      
+      // Handle successful registration
+      alert('Registration successful!');
+      navigate('/login'); // Redirect to login page
+
+    } catch (err) {
+      setError(err.message || 'Registration failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -33,6 +62,8 @@ function SignUp() {
       <div className="signup-container">
         <h1 className="signup-title">Sign Up</h1>
         <p className="signup-subtitle">Create your business account</p>
+
+        {error && <div className="error-message">{error}</div>}
 
         <form onSubmit={handleSubmit} className="signup-form">
           <div className="form-row">
@@ -76,16 +107,16 @@ function SignUp() {
           />
 
           <select
-            name="role"
+            name="roleId"
             className="form-input form-select"
-            value={formData.role}
+            value={formData.roleId}
             onChange={handleChange}
             required
           >
             <option value="" disabled>Choose your role</option>
-            <option value="admin">Admin</option>
-            <option value="planner">Financial Planner</option>
-            <option value="broker">Mortgage Broker</option>
+            <option value="1">Admin</option>
+            <option value="2">Financial Planner</option>
+            <option value="3">Mortgage Broker</option>
           </select>
 
           <input
@@ -108,8 +139,12 @@ function SignUp() {
             required
           />
 
-          <button type="submit" className="submit-button">
-            Create account
+          <button 
+            type="submit" 
+            className="submit-button" 
+            disabled={loading}
+          >
+            {loading ? 'Creating account...' : 'Create account'}
           </button>
         </form>
       </div>

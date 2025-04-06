@@ -89,6 +89,13 @@ exports.login = async (req, res) => {
             return res.status(401).json({ message: "Invalid credentials" });
         }
 
+        // Optional: Role validation if needed
+        if (req.body.role && user.role_name !== req.body.role) {
+            return res.status(401).json({ 
+                message: "Selected role does not match user credentials" 
+            });
+        }
+
         // Generate JWT token
         const token = jwt.sign(
             { 
@@ -100,14 +107,14 @@ exports.login = async (req, res) => {
             { expiresIn: "24h" }
         );
 
-        // creation of user sessions
+        // Create user session
         await db.execute(
             `INSERT INTO user_sessions (user_id, token) VALUES (?, ?)`,
             [user.user_id, token]
         );
 
-        //return user data and token
-        res.json({
+        // Send single response with all data
+        return res.json({
             token,
             user: {
                 id: user.user_id,
@@ -121,6 +128,6 @@ exports.login = async (req, res) => {
 
     } catch (error) {
         console.error("Login Error:", error);
-        res.status(500).json({ message: "Server error" });
+        return res.status(500).json({ message: "Server error" });
     }
 };

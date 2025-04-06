@@ -12,6 +12,7 @@ import CreateTicketForm from './CreateTickets/formTicket.jsx'
 import DisplayTicket from './DisplayTicket/DisplayTicket.jsx'  // Changed from './displayTicket/displayTicket.jsx'
 import Register from './SignUp/SignUp.jsx' // Assuming you have a Register component
 import Dashboard from './Dashboard/Dashboard';
+import LogView from './LogView/LogView.jsx' // Assuming you have a LogView component
 
 import './App.css'
 import './LandingPage/Feature/keyFeature.css'
@@ -44,6 +45,8 @@ function App() {
           <Route path="/display-ticket" element={<DisplayTicket />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/register" element={<Register />} /> {/* You'll need to create this component */}
+          <Route path="/ticket-logs" element={<LogView />} />
+          <Route path="/display-ticket/:id" element={<DisplayTicket />} />
         </Routes>
       </div>
     </Router>

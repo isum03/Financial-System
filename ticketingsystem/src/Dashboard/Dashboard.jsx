@@ -25,12 +25,12 @@ const Dashboard = () => {
           </div>
           <div 
             className="cardD"
-            onClick={() => handleCardClick('/display-ticket')}
+            onClick={() => handleCardClick('/ticket-logs')}
             role="button"
             tabIndex={0}
           >
-            <h2>Ticket Details Page</h2>
-            <p>Just Click, See ticketing details you got</p>
+            <h2>Ticket Logs</h2>
+            <p>View all ticket logs and their details</p>
           </div>
         </div>
       </div>

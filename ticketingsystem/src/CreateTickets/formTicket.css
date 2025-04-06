@@ -6,11 +6,12 @@
   width: 100%;
 }
 .create-ticket-container {
-  flex: 1;
-  max-width: 700px;
-  margin: 40px auto;
-  padding: 30px;
-  box-sizing: border-box;
+  max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
   
   .form-title {
@@ -143,4 +144,20 @@
     .submit-button {
       width: 100%; /* Full width buttons */
     }
-  }
+    /* Add these styles to your existing CSS */
+.error-message {
+  color: #dc3545;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.submit-button-form:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+}

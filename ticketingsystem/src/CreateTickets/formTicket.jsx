@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './formTicket.css';
 import Footer from '../Headers, Footer/Footer';
+import { ticketService } from '../services/ticketService';
 
 function CreateTicketForm() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    serial_no: '',
-    client_name: '',
-    client_address: '',
-    email: '',
-    phone_number: '',
-    amount: '',
-    // These fields will be handled by the backend
-    // created_by: will come from authenticated user
-    // status: will default to 'pending'
+    clientName: '',        // Changed from client_name
+    clientAddress: '',     // Changed from client_address
+    email: '',            
+    phoneNumber: '',       // Changed from phone_number
+    amount: '',           
+    assignedTo: ''   
   });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // For amount field, only allow numbers and decimal point
     if (name === 'amount') {
       if (!/^\d*\.?\d*$/.test(value)) return;
     }
@@ -29,32 +30,55 @@ function CreateTicketForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch('/api/tickets', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
-      });
-      
-      if (!response.ok) throw new Error('Submission failed');
-      
-      alert('Ticket created successfully');
-      // Clear form after successful submission
-      setFormData({
-        serial_no: '',
-        client_name: '',
-        client_address: '',
-        email: '',
-        phone_number: '',
-        amount: '',
-      });
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Failed to create ticket');
+    setError('');
+    setLoading(true);
+
+    // Basic validation before sending
+    if (!formData.clientName?.trim()) {
+        setError('Client name is required');
+        setLoading(false);
+        return;
     }
-  };
+
+    if (!formData.clientAddress?.trim()) {
+        setError('Client address is required');
+        setLoading(false);
+        return;
+    }
+
+    if (!formData.phoneNumber?.trim()) {
+        setError('Phone number is required');
+        setLoading(false);
+        return;
+    }
+
+    if (!formData.amount || isNaN(parseFloat(formData.amount))) {
+        setError('Valid amount is required');
+        setLoading(false);
+        return;
+    }
+
+    if (!formData.assignedTo || isNaN(parseInt(formData.assignedTo))) {
+        setError('Valid broker ID is required');
+        setLoading(false);
+        return;
+    }
+
+    try {
+        const data = await ticketService.createTicket(formData);
+        console.log('Response:', data);
+        alert('Ticket created successfully');
+        
+    } catch (err) {
+        setError(err.message || 'Failed to create ticket');
+    } finally {
+        setLoading(false);
+    }
+};
+
+const goBack = () => {
+  navigate(-1); // This will go back to the previous page
+};
 
   return (
     <div className="page-wrapper">
@@ -62,8 +86,10 @@ function CreateTicketForm() {
         <h1 className="form-title">Create Ticket</h1>
         <p className="form-subtitle">Enter ticket details</p>
 
+        {error && <div className="error-message">{error}</div>}
+
         <form className="ticket-form" onSubmit={handleSubmit}>
-          <div className="form-group">
+      {/*}    <div className="form-group">
             <label htmlFor="serial_no" className="form-label">Serial Number:</label>
             <input
               type="text"
@@ -75,16 +101,16 @@ function CreateTicketForm() {
               required
               maxLength={20}
             />
-          </div>
+          </div>*/}
 
           <div className="form-group">
             <label htmlFor="client_name" className="form-label">Client Name:</label>
             <input
               type="text"
-              id="client_name"
-              name="client_name"
+              id="clientName"
+              name="clientName"
               className="form-input"
-              value={formData.client_name}
+              value={formData.clientName}
               onChange={handleChange}
               required
               maxLength={100}
@@ -94,10 +120,10 @@ function CreateTicketForm() {
           <div className="form-group">
             <label htmlFor="client_address" className="form-label">Client Address:</label>
             <textarea
-              id="client_address"
-              name="client_address"
+              id="clientAddress"
+              name="clientAddress"
               className="form-input form-input-large"
-              value={formData.client_address}
+              value={formData.clientAddress}
               onChange={handleChange}
               required
               rows={3}
@@ -124,10 +150,10 @@ function CreateTicketForm() {
             <label htmlFor="phone_number" className="form-label">Phone Number:</label>
             <input
               type="tel"
-              id="phone_number"
-              name="phone_number"
+              id="phoneNumber"
+              name="phoneNumber"
               className="form-input"
-              value={formData.phone_number}
+              value={formData.phoneNumber}
               onChange={handleChange}
               required
               maxLength={20}
@@ -147,10 +173,36 @@ function CreateTicketForm() {
               placeholder="0.00"
             />
           </div>
+          <div className="form-group">
+    <label htmlFor="assigned_to" className="form-label">Assign To (User ID):</label>
+    <input
+      type="text"
+      id="assignedTo"
+      name="assignedTo"      // Changed from assignedTo
+      className="form-input"
+      value={formData.assignedTo}
+      onChange={handleChange}
+      required
+      placeholder="Enter Broker's ID"
+      inputMode="numeric"
+      pattern="\d+"
+    />
+  </div>
 
           <div className="form-actions">
-            <button type="submit" className="submit-button-form">Create Ticket</button>
-            <button type="button" className="cancel-button" onClick={() => window.history.back()}>
+            <button 
+              type="submit" 
+              className="submit-button-form"
+              disabled={loading}
+              onClick={goBack}
+            >
+              {loading ? 'Creating...' : 'Create Ticket'}
+            </button>
+            <button 
+              type="button" 
+              className="cancel-button" 
+              onClick={goBack}
+            >
               Cancel
             </button>
           </div>

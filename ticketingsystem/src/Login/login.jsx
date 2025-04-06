@@ -10,6 +10,7 @@ function Login() {
     password: '',
     role: '',
   });
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,20 +20,48 @@ function Login() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    switch(formData.role) {
-      case 'planner':
-        navigate('/create-ticket');
-        break;
-      case 'broker':
-        navigate('/dashboard'); // Assuming you have a dashboard for brokers
-        break;
-      case 'admin':
-        navigate('/register');
-        break;
-      default:
-        alert('Please select a role');
+    setError('');
+
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
+      }
+
+      // Store the token and user data
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+
+      // Navigate based on user role
+      switch(data.user.role) {
+        case 'planner':
+          navigate('/create-ticket');
+          break;
+        case 'broker':
+          navigate('/dashboard');
+          break;
+        case 'admin':
+          navigate('/register');
+          break;
+        default:
+          setError('Invalid role');
+      }
+    } catch (err) {
+      setError(err.message || 'Login failed');
     }
   };
 
@@ -41,6 +70,8 @@ function Login() {
       <div className="signin-page-container">
         <h1 className="signin-title">Welcome Back</h1>
         <p className="signin-subtitle">Login to your account</p>
+
+        {error && <div className="error-message">{error}</div>}
 
         <div className="form-container">
           <form onSubmit={handleSubmit} className="signin-form">
@@ -72,7 +103,7 @@ function Login() {
               />
             </div>
 
-            <div className="form-group">
+            {/*<div className="form-group">
               <label htmlFor="role" className="form-label">Role</label>
               <select
                 id="role"
@@ -87,7 +118,7 @@ function Login() {
                 <option value="planner">Financial Planner</option>
                 <option value="broker">Mortgage Broker</option>
               </select>
-            </div>
+            </div>*/}
 
             <button type="submit" className="signin-button">
               Sign In

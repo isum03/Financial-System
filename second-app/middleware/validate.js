@@ -1,4 +1,4 @@
-const { body } = require('express-validator');
+const { body, check } = require('express-validator');
 
 //user signup validation
 exports.validateSignup = [
@@ -18,49 +18,49 @@ exports.validateLogin = [
 
 //validate create and update ticket
 exports.validateTicket = [
-    body('clientName')
+    check('client_name')
         .trim()
-        .isLength({ max: 100 })  // Changed to match varchar(100)
-        .notEmpty()
-        .withMessage('Client name is required and must be max 100 characters'),
+        .isLength({ min: 2, max: 100 })
+        .withMessage('Client name must be between 2 and 100 characters'),
     
-    body('clientAddress')
+    check('client_address')
         .trim()
         .notEmpty()
         .withMessage('Client address is required'),
     
-    body('email')
+    check('email')
         .trim()
-        .isLength({ max: 100 })  // Changed to match varchar(100)
         .isEmail()
-        .withMessage('Please enter a valid email (max 100 characters)'),
+        .withMessage('Must be a valid email address')
+        .isLength({ max: 100 })
+        .withMessage('Email must not exceed 100 characters'),
     
-    body('phoneNumber')
+    check('phone_number')
         .trim()
-        .isLength({ max: 20 })   // Changed to match varchar(20)
-        .matches(/^[0-9+\-\s()]*$/)  // Allow phone number formatting
-        .withMessage('Please enter a valid phone number'),
+        .isLength({ min: 10, max: 20 })
+        .withMessage('Phone number must be between 10 and 20 characters'),
     
-    body('amount')
-        .isFloat({ min: 0 })     // Changed to isFloat for decimal(15,2)
-        .withMessage('Amount must be a positive number')
+    check('amount')
+        .isDecimal({ decimal_digits: '0,2' })
+        .withMessage('Amount must be a valid number with up to 2 decimal places')
+        .isFloat({ min: 0 })
+        .withMessage('Amount must be greater than 0'),
+    
+    check('assigned_to')  // This matches the payload field name
+        .isInt()
+        .withMessage('Valid broker ID is required'),    
+    
+    check('status')
+        .optional()
+        .isIn(['pending', 'in_progress', 'completed', 'cancelled'])
+        .withMessage('Invalid status value')
 ];
 
-//assigning ticket validation
+
+
 exports.validateTicketAssignment = [
     body('assignedTo')
         .isInt()
         .notEmpty()
-        .withMessage('Valid assignee ID is required'),
-    
-    body('status')
-        .optional()
-        .isIn(['pending', 'in_progress', 'completed', 'cancelled'])
-        .withMessage('Invalid status value'),
-        
-    body('notes')
-        .optional()
-        .trim()
-        .isString()
-        .withMessage('Notes must be text')
+        .withMessage('Valid broker ID is required')
 ];
