@@ -5,7 +5,7 @@ import Footer from "../Headers, Footer/Footer";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-
+  //handle guiding to a new path
   const handleCardClick = (path) => {
     navigate(path);
   };
@@ -14,6 +14,7 @@ const Dashboard = () => {
     <div className="page-wrapper">
       <div className="dashboard">
         <div className="content">
+          {/*card create tickets*/}
           <div 
             className="cardC" 
             onClick={() => handleCardClick('/create-ticket')}
@@ -23,6 +24,7 @@ const Dashboard = () => {
             <h2>Creating Ticket</h2>
             <p>Just Click, Create a ticket for yourselves</p>
           </div>
+          {/*card display tickets*/}
           <div 
             className="cardD"
             onClick={() => handleCardClick('/ticket-logs')}

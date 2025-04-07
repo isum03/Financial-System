@@ -1,46 +1,42 @@
-/* Styles specific to the Hero component */
-.hero-section {
+.general-section {
+  height: 350px; 
+  display: flex;
+  justify-content: center;   
+  align-items: center;       
+  background-color: #ffffff;
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.general-content {
   text-align: center;
-  padding: 60px 20px;
-  position: relative; 
+  max-width: 600px;
 }
-  
-.hero-title { /* Matched JS */
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #000;
+
+.generalcontent h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #333;
 }
-  
-  .hero-subtitle { /* Matched JS */
-    font-size: 1.1rem;
-    color: #666;
-    max-width: 600px;
-    margin: 0 auto 30px auto;
-  }
-  
-  .login-button-hero { /* Matched JS */
-    background-color: #000;
-    color: #fff;
-    border: none;
-    padding: 10px 25px;
-    border-radius: 5px;
-    font-weight: bold;
-    font-size: 1.2rem;
-    transition: background-color 0.2s ease;
-    position: absolute;  /* Add this */
-    left: 390px;  
-    margin-top: 100px;
-    
-  }
-  
-  .hero-login-button:hover {
-    background-color: #333;
-  }
-  
-  /* Basic Responsive Example */
-  @media (max-width: 768px) {
-    .hero-title {
-      font-size: 2.2rem;
-    }
-  }
+
+.general-content p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+.login-button-general {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button-general:hover {
+  background-color: #000;
+}

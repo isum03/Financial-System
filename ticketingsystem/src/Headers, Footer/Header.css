@@ -1,4 +1,3 @@
-/* Styles specific to the Header component */
 .app-header {
     display: flex;
     justify-content: space-between;
@@ -8,12 +7,12 @@
     background-color: #fff;
   }
   
-  .header-logo { /* Matched JS className */
+  .header-logo {
     font-size: 1.5rem;
     font-weight: bold;
   }
   
-  .header-nav ul { /* Matched JS className */
+  .header-nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -31,7 +30,7 @@
     color: #000;
   }
   
-  .header-login-button { /* Matched JS className */
+  .header-login-button { 
     background-color: #000;
     color: #fff;
     border: none;

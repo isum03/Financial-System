@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './login.css';
 import Footer from '../Headers, Footer/Footer';
+import { Link } from 'react-router-dom';
 
 function Login() {
   const navigate = useNavigate();
+  //use for storing form data in inputs
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     role: '',
   });
   const [error, setError] = useState('');
-
+  //updates the form data state
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -25,6 +27,7 @@ function Login() {
     setError('');
 
     try {
+      //send login request to backend
       const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
         headers: {
@@ -36,7 +39,7 @@ function Login() {
         })
       });
 
-      const data = await response.json();
+      const data = await response.json();  //parse the JSon response
 
       if (!response.ok) {
         throw new Error(data.message || 'Login failed');
@@ -103,28 +106,13 @@ function Login() {
               />
             </div>
 
-            {/*<div className="form-group">
-              <label htmlFor="role" className="form-label">Role</label>
-              <select
-                id="role"
-                name="role"
-                className="form-input form-select"
-                value={formData.role}
-                onChange={handleChange}
-                required
-              >
-                <option value="" disabled>Choose your role</option>
-                <option value="admin">Admin</option>
-                <option value="planner">Financial Planner</option>
-                <option value="broker">Mortgage Broker</option>
-              </select>
-            </div>*/}
-
             <button type="submit" className="signin-button">
               Sign In
             </button>
 
-            <a href="#" className="forgot-link">Forgot password?</a>
+            <Link to="/forgot-password" className="forgot-link">
+                    Forgot password?
+            </Link>
           </form>
         </div>
       </div>

@@ -4,18 +4,18 @@ import './Header.css'; // Import component-specific styles
 
 function Header() {
   const navigate = useNavigate();
-
+  //handle guiding to a new path
   const handleNavClick = (event) => {
-    event.preventDefault();
-    const target = event.target.getAttribute('href');
+    event.preventDefault();  
+    const target = event.target.getAttribute('href');       // Get the target from the href attribute to scroll to the correct section
     document.querySelector(target).scrollIntoView({ 
-      behavior: 'smooth' 
+      behavior: 'smooth'  //smooth scrolling effect
     });
   };
 
   return (
-    <header className="app-header"> {/* Use classNames defined in Header.css */}
-      <div className="header-logo">FPLANNER</div> {/* Renamed for specificity */}
+    <header className="app-header"> 
+      <div className="header-logo">FPLANNER</div> 
       <nav className="header-nav">
         <ul>
         <li><a href="#keyfeature" onClick={handleNavClick}>Key-Features</a></li>
@@ -28,4 +28,4 @@ function Header() {
   );
 }
 
-export default Header; // Export the component
+export default Header;

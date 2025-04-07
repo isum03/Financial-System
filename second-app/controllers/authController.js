@@ -6,12 +6,13 @@ const { validationResult } = require("express-validator");
 //create accounts with encrypted passwords
 exports.signup = async (req, res) => {
     try {
-        // Validate request data
+        // Validate request data 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
 
+        //unpack request body
         const {
             firstName,
             lastName,
@@ -45,7 +46,7 @@ exports.signup = async (req, res) => {
         // Hash password
         const passwordHash = await bcrypt.hash(password, 12);
 
-        // Insert user
+        // Insert user values to db
         const [result] = await db.execute(
             `INSERT INTO users (first_name, last_name, email, phone, username, password_hash, role_id)
              VALUES (?, ?, ?, ?, ?, ?, ?)`,
@@ -77,6 +78,7 @@ exports.login = async (req, res) => {
             [email]
         );
 
+        //if no matching user found
         if (users.length === 0) {
             return res.status(401).json({ message: "Invalid credentials" });
         }
@@ -89,12 +91,12 @@ exports.login = async (req, res) => {
             return res.status(401).json({ message: "Invalid credentials" });
         }
 
-        // Optional: Role validation if needed
+        /* Optional: Role validation if needed
         if (req.body.role && user.role_name !== req.body.role) {
             return res.status(401).json({ 
                 message: "Selected role does not match user credentials" 
             });
-        }
+        }*/
 
         // Generate JWT token
         const token = jwt.sign(
@@ -104,7 +106,7 @@ exports.login = async (req, res) => {
                 role: user.role_name
             },
             process.env.JWT_SECRET,
-            { expiresIn: "24h" }
+            { expiresIn: "2h" }  //token valid to 2hrs
         );
 
         // Create user session
@@ -129,5 +131,60 @@ exports.login = async (req, res) => {
     } catch (error) {
         console.error("Login Error:", error);
         return res.status(500).json({ message: "Server error" });
+    }
+};
+//handle forgot password requests
+exports.forgotPassword = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        // Validate the request
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        // Check if user exists
+        const [users] = await db.execute(
+            'SELECT user_id, email FROM users WHERE email = ? AND is_active = 1',
+            [email]
+        );
+
+        //if no user found with the email
+        if (users.length === 0) {
+            return res.status(404).json({ 
+                message: "No account found with this email" 
+            });
+        }
+
+        // Generate reset token
+        const resetToken = jwt.sign(
+            { userId: users[0].user_id },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+
+        // Store reset token and expire time in the database
+        await db.execute(
+            `UPDATE users 
+             SET reset_token = ?, 
+                 reset_token_expires = DATE_ADD(NOW(), INTERVAL 1 HOUR) 
+             WHERE user_id = ?`,
+            [resetToken, users[0].user_id]
+        );
+
+        // In production, send email with reset link
+        // For development, return token directly
+        res.json({ 
+            success: true,
+            message: "Password reset instructions sent",
+            //resetToken: resetToken 
+        });
+
+    } catch (error) {
+        console.error("Forgot Password Error:", error);
+        res.status(500).json({ 
+            message: "Server error while processing password reset request" 
+        });
     }
 };

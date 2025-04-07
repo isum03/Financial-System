@@ -1,7 +1,7 @@
 import React from 'react';
 import './Footer.css';
-// Consider using an icon library like react-icons for social links
-// import { FaFacebookF, FaLinkedinIn, FaYoutube, FaInstagram } from 'react-icons/fa';
+// Import the required icons from react-icons
+import { FaFacebookF, FaLinkedinIn, FaYoutube, FaInstagram } from 'react-icons/fa'; //importing icons
 
 function Footer() {
   return (
@@ -10,16 +10,19 @@ function Footer() {
         <div className="footer-left">
           <div className="footer-logo">FPlanner</div>
           <div className="social-links">
-             {/* Replace with actual icons */}
-            <a href="#" aria-label="Facebook">FB</a>
-            <a href="#" aria-label="LinkedIn">LI</a>
-            <a href="#" aria-label="YouTube">YT</a>
-            <a href="#" aria-label="Instagram">IG</a>
-            {/* Example with react-icons: */}
-            {/* <a href="#" aria-label="Facebook"><FaFacebookF /></a> */}
-            {/* <a href="#" aria-label="LinkedIn"><FaLinkedinIn /></a> */}
-            {/* <a href="#" aria-label="YouTube"><FaYoutube /></a> */}
-            {/* <a href="#" aria-label="Instagram"><FaInstagram /></a> */}
+            {/* Social icons */}
+            <a href="#" aria-label="Facebook">
+              <FaFacebookF />
+            </a>
+            <a href="#" aria-label="LinkedIn">
+              <FaLinkedinIn />
+            </a>
+            <a href="#" aria-label="YouTube">
+              <FaYoutube />
+            </a>
+            <a href="#" aria-label="Instagram">
+              <FaInstagram />
+            </a>
           </div>
         </div>
         <div className="footer-right">

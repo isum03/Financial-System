@@ -1,80 +1,81 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './DisplayTicket.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { ticketService } from '../services/ticketService';
+import Footer from '../Headers, Footer/Footer';
 
-// In a real app, this data would likely come from props or state management
-const ticketData = {
-  serialNumber: 'T001',
-  clientName: 'Ross Geller',
-  clientAddress: 'City Road, Town',
-  email: 'ross@gmail.com',
-  phone: '1234567890',
-  amount: '20,000', // Keep as string to include comma/currency
-};
-
-function DisplayTicket() {
+const DisplayTicket = () => {
   const navigate = useNavigate();
-  const handleReject = () => {
-    console.log('Ticket Rejected:', ticketData.serialNumber);
-    alert(`Ticket ${ticketData.serialNumber} Rejected`);
-    // Add actual rejection logic (e.g., API call)
-    navigate('/dashboard');
-  };
+  const { id } = useParams();       //extract tickets from the id
 
-  const handleApprove = () => {
-    console.log('Ticket Approved:', ticketData.serialNumber);
-    alert(`Ticket ${ticketData.serialNumber} Approved`);
-    // Add actual approval logic (e.g., API call)
-    navigate('/dashboard');
-  };
-
-  return (
-    <div className="display-ticket-container">
-      <h1 className="display-title">Display Ticket</h1>
-
-      <div className="ticket-details">
-        {/* Basic Info */}
-        <div className="ticket-detail-row">
-          <span className="ticket-label">Serial Number:</span>
-          <span className="ticket-value">{ticketData.serialNumber}</span>
-        </div>
-        <div className="ticket-detail-row">
-          <span className="ticket-label">Client Name:</span>
-          <span className="ticket-value">{ticketData.clientName}</span>
-        </div>
-        <div className="ticket-detail-row">
-          <span className="ticket-label">Client Address:</span>
-          <span className="ticket-value">{ticketData.clientAddress}</span>
-        </div>
-
-        {/* Contact Details */}
-        <h2 className="contact-details-heading">Contact Details:</h2>
-        <div className="ticket-detail-row">
-          <span className="ticket-label">Email</span>
-          <span className="ticket-value">{ticketData.email}</span>
-        </div>
-        <div className="ticket-detail-row">
-          <span className="ticket-label">Phone Number</span>
-          <span className="ticket-value">{ticketData.phone}</span>
-        </div>
-        <div className="ticket-detail-row">
-          <span className="ticket-label">Amount</span>
-          {/* Add currency symbol if desired */}
-          <span className="ticket-value">${ticketData.amount}</span>
-        </div>
-      </div>
-
-      {/* Action Buttons */}
-      <div className="ticket-actions">
-        <button type="button" className="reject-button" onClick={handleReject}>
-          Reject
-        </button>
-        <button type="button" className="approve-button" onClick={handleApprove}>
-          Approve
-        </button>
-      </div>
+  const [ticket, setTicket] = useState(null);  //ticket state
+  const [loading, setLoading] = useState(true); //loading indicator
+  const [error, setError] = useState('');  //error state
+  //fetch the ticket details using the id
+  useEffect(() => {
+    const fetchTicketDetails = async () => {
+      try {
+        const data = await ticketService.getTicketById(id); //call api to fetch ticket id
+        setTicket(data.ticket); //set ticket data 
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    //only fetch the id is present
+    if (id) fetchTicketDetails();
+  }, [id]);
+  //render ticket fields in raw
+  const DetailRow = ({ label, value }) => (
+    <div className="ticket-detail-row">
+      <span className="ticket-label">{label}:</span>
+      <span className="ticket-value">{value}</span>
     </div>
   );
-}
+
+  if (loading) return (
+    <div className="page-wrapper">
+      <div className="status-message">Loading...</div>
+      <Footer />
+    </div>
+  );
+
+  if (error) return (
+    <div className="page-wrapper">
+      <div className="error-message">{error}</div>
+      <Footer />
+    </div>
+  );
+  //if no ticket found
+  if (!ticket) return (
+    <div className="page-wrapper">
+      <div className="status-message">No ticket found</div>
+      <Footer />
+    </div>
+  );
+
+  return (
+    <div className="page-wrapper">
+      <section className="display-ticket-container">
+        <h1 className="display-title">Ticket Details</h1>
+
+        <section className="ticket-details">
+          <DetailRow label="Serial Number" value={ticket.serial_no} />
+          <DetailRow label="Client Name" value={ticket.client_name} />
+          <DetailRow label="Client Address" value={ticket.client_address} />
+
+          <h2 className="section-heading">Contact Details</h2>
+          <DetailRow label="Email" value={ticket.email} />
+          <DetailRow label="Phone Number" value={ticket.phone_number} />
+          <DetailRow label="Amount" value={`$${parseFloat(ticket.amount).toLocaleString()}`} />
+          <DetailRow label="Status" value={ticket.status} />
+          <DetailRow label="Created At" value={new Date(ticket.created_at).toLocaleString()} />
+        </section>
+      </section>
+      <Footer />
+    </div>
+  );
+};
 
 export default DisplayTicket;

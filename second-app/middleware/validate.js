@@ -57,10 +57,18 @@ exports.validateTicket = [
 ];
 
 
-
+/*
 exports.validateTicketAssignment = [
     body('assignedTo')
         .isInt()
         .notEmpty()
         .withMessage('Valid broker ID is required')
+];*/
+//validate the forgot pasword 
+exports.validateForgotPassword = [
+    body('email')
+        .isEmail()
+        .withMessage('Please enter a valid email')
+        .trim()
+        .normalizeEmail()
 ];

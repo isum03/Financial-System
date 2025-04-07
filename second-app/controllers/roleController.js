@@ -2,6 +2,7 @@ const db = require('../Config/db');
 //get all roles
 exports.getRoles = async (req, res) => {
     try {
+        //query to fetch dtata from db
         const [roles] = await db.execute(
             'SELECT role_id, role_name, description FROM roles'
         );
@@ -11,7 +12,8 @@ exports.getRoles = async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 };
-//create new roles
+
+/*create new roles
 exports.createRole = async (req, res) => {
     try {
         const { roleName, description } = req.body;
@@ -39,8 +41,8 @@ exports.createRole = async (req, res) => {
         console.error("Create Role Error:", error);
         res.status(500).json({ message: "Server error" });
     }
-};
-//update the role
+};*/
+/*update the role
 exports.updateRole = async (req, res) => {
     try {
         const { roleName, description } = req.body;
@@ -80,4 +82,4 @@ exports.deleteRole = async (req, res) => {
         console.error("Delete Role Error:", error);
         res.status(500).json({ message: "Server error" });
     }
-};
+};*/

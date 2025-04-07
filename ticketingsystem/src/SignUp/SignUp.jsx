@@ -6,6 +6,7 @@ import { authService } from '../services/auth';
 
 function SignUp() {
   const navigate = useNavigate();
+  //use for storing form data in inputs
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -13,11 +14,11 @@ function SignUp() {
     phone: '',
     username: '',
     password: '',
-    roleId: '' // This will store the numeric role ID
+    roleId: '' 
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
+  //handle changes in the input
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -25,20 +26,14 @@ function SignUp() {
       [name]: value
     }));
   };
-
+  //handle the submission of the form
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
     try {
-      // Map the role selection to role IDs
-      const roleMapping = {
-        'admin': 1,
-        'planner': 2,
-        'broker': 3
-      };
-
+      //prepare user data
       const userData = {
         ...formData,
         roleId: parseInt(formData.roleId) // Ensure roleId is a number
@@ -61,7 +56,7 @@ function SignUp() {
     <div className="page-wrapper">
       <div className="signup-container">
         <h1 className="signup-title">Sign Up</h1>
-        <p className="signup-subtitle">Create your business account</p>
+        <p className="signup-subtitle">Create a account</p>
 
         {error && <div className="error-message">{error}</div>}
 

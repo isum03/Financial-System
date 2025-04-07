@@ -1,25 +1,62 @@
 import React from 'react';
-import './keyFeature.css'; // Import your CSS file for styling
+import './keyFeature.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faLock, faTicketAlt, faUsers } from "@fortawesome/free-solid-svg-icons";
+
+// Add icons to library
+library.add(faLock, faTicketAlt, faUsers);
 
 function KeyFeatures() {
-    return (
-      <section className="key-features-section" id='keyfeature'> {/* Add className for styling */}
-        <h2>Key Features</h2>
-        <div className="features-grid"> {/* Use CSS Grid or Flexbox */}
-          <div className="feature-item">
-            <h3>Secure User Access</h3>
-            <p>Role-based login for Admins, Financial Planners, and Mortgage Brokers.</p>
+  return (
+    <section className="key-features-section" id="keyfeature">
+      <div className="stack-area">
+        <div className="left">
+          <h2 className="title">
+            Key Features 
+          </h2>
+          <p className="sub-title">
+            We offer a seamless and secure experience for both financial planners and mortgage brokers.
+          </p>
+        </div>
+
+        <div className="right">
+          <div className="card">
+            <div className="icon-container">
+              <FontAwesomeIcon className="feature-icon" icon="lock" />
+              <div className="connecting-line"></div>
+            </div>
+            <div className="sub">Secure User Access</div>
+            <div className="content">
+              Role-based login for Admins, Financial Planners, and Mortgage Brokers.
+            </div>
           </div>
-          <div className="feature-item">
-            <h3>Seamless Ticket Management</h3>
-            <p>Create, assign, and track tickets effortlessly.</p>
+
+          <div className="card">
+            <div className="icon-container">
+              <FontAwesomeIcon className="feature-icon" icon="ticket-alt" />
+              <div className="connecting-line"></div>
+            </div>
+            <div className="sub">Seamless Ticket Management</div>
+            <div className="content">
+              Create, assign, and track tickets effortlessly for a smooth workflow.
+            </div>
           </div>
-          <div className="feature-item">
-            <h3>Efficient Collaboration</h3>
-            <p>Smooth workflow between Financial Planners and Mortgage Brokers.</p>
+
+          <div className="card">
+            <div className="icon-container">
+              <FontAwesomeIcon className="feature-icon" icon="users" />
+              <div className="connecting-line"></div>
+            </div>
+            <div className="sub">Efficient Collaboration</div>
+            <div className="content">
+              Smooth collaboration between Financial Planners and Mortgage Brokers.
+            </div>
           </div>
         </div>
-      </section>
-    );
+      </div>
+    </section>
+  );
 }
+
 export default KeyFeatures;

@@ -1,8 +1,8 @@
 exports.getTicketLogs = async (req, res) => {
     try {
-        const userId = req.user.user_id;
-        const roleId = req.user.role_id;
-
+        const userId = req.user.user_id;     //extract userId from request object
+        const roleId = req.user.role_id;      //extract roleId from request object
+        //base SQL query to retrieve ticket logs
         let query = `
             SELECT 
                 tl.created_at,
@@ -16,16 +16,16 @@ exports.getTicketLogs = async (req, res) => {
             WHERE 1=1
         `;
 
-        const params = [];
+        const params = [];   //secure sql query parameters
 
         // If user is a broker, only show their tickets
         if (roleId === 3) {
             query += ` AND t.assigned_to = ?`;
-            params.push(userId);
+            params.push(userId);  //add userId to params array
         }
-
+        // Order logs by most recent first
         query += ` ORDER BY tl.created_at DESC`;
-
+        // Execute the query with parameters
         const [logs] = await db.execute(query, params);
         res.json(logs);
 

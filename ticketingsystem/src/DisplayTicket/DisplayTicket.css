@@ -1,113 +1,85 @@
-/* src/components/DisplayTicket/DisplayTicket.css */
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
 .display-ticket-container {
-  max-width: 700px; /* Adjust as needed */
-  margin: 40px auto;
-  padding: 30px;
-  /* Optional styling */
-  /* border: 1px solid #ddd; */
-  /* border-radius: 8px; */
+  flex: 1;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
 }
 
 .display-title {
   text-align: center;
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 40px; /* More space below title */
-  color: #000;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #333;
 }
 
 .ticket-details {
-  margin-bottom: 40px; /* Space before action buttons */
+  margin-bottom: 2rem;
 }
 
 .ticket-detail-row {
   display: flex;
-  margin-bottom: 18px; /* Space between rows */
-  gap: 15px; /* Space between label and value */
-  align-items: flex-start; /* Align top if value wraps */
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .ticket-label {
-  flex-basis: 150px; /* Consistent width for labels */
-  flex-shrink: 0; /* Prevent label from shrinking */
-  text-align: left;
-  font-weight: 500;
-  font-size: 1rem;
-  color: #333;
+  font-weight: 600;
+  color: #555;
+  min-width: 150px;
 }
 
 .ticket-value {
-  flex-grow: 1; /* Take remaining space */
-  font-size: 1rem;
-  color: #555; /* Slightly lighter color for value */
-  word-break: break-word; /* Allow long values to wrap */
+  color: #333;
+  flex: 1;
+  text-align: right;
 }
 
-.contact-details-heading {
-  font-size: 1.3rem;
-  font-weight: bold;
-  margin-top: 40px;
-  margin-bottom: 25px;
-  /* border-bottom: 1px solid #eee; */
-  /* padding-bottom: 10px; */
+.section-heading {
+  font-size: 1.25rem;
+  margin: 1.5rem 0 1rem;
+  color: #444;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 0.5rem;
 }
 
-.ticket-actions {
-  display: flex;
-  justify-content: flex-end; /* Align buttons to the right */
-  gap: 15px;
-  margin-top: 30px;
+.status-message {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: #666;
 }
 
-.reject-button,
-.approve-button {
-  padding: 12px 30px;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: opacity 0.2s ease;
+.error-message {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: red;
 }
 
-.reject-button {
-  background-color: #A0522D; /* Brownish color */
-  color: #fff;
-}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .display-ticket-container {
+    margin: 1rem;
+    padding: 1rem;
+  }
 
-.approve-button {
-  background-color: #28a745; /* Greenish color */
-  color: #fff;
-}
-
-.reject-button:hover,
-.approve-button:hover {
-  opacity: 0.85;
-}
-
-/* Basic Responsive Adjustments */
-@media (max-width: 600px) {
   .ticket-detail-row {
-     /* Optional: Stack label/value if needed */
-    flex-direction: column; 
-     align-items: flex-start; 
-    gap: 5px; 
+    flex-direction: column;
+    gap: 0.5rem;
   }
 
-  .ticket-label {
-     /* If stacking: */
-     flex-basis: auto; 
-     margin-bottom: 3px; 
-  }
-
-  .ticket-actions {
-    flex-direction: column; /* Stack buttons */
-    align-items: stretch; /* Make buttons full width */
-  }
-
-  .reject-button,
-  .approve-button {
-    width: 100%; /* Full width buttons */
+  .ticket-value {
+    text-align: left;
   }
 }

@@ -1,23 +1,27 @@
 const db = require('../Config/db');
 const { validationResult } = require('express-validator');
 
+//generates a unique serial number for the ticket
 const generateSerialNumber = () => {
     const date = new Date();
     return `TKT-${date.getFullYear()}${(date.getMonth()+1).toString().padStart(2,'0')}${date.getDate().toString().padStart(2,'0')}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
 };
 
+//allowing to create tickets and assign them to brokers
 exports.createTicket = async (req, res) => {
     try {
         console.log('--- Create Ticket Request ---');
         console.log('User:', req.user);
         console.log('Request Body:', req.body);
 
+        //Add validations
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             console.log('Validation Errors:', errors.array());
             return res.status(400).json({ errors: errors.array() });
         }
 
+        //unpack request body
         const { 
             client_name: clientName, 
             client_address: clientAddress, 
@@ -43,6 +47,7 @@ exports.createTicket = async (req, res) => {
             });
         }
 
+        //generate a unique serial number for the ticket
         const serialNo = generateSerialNumber();
         console.log('Generated Serial Number:', serialNo);
 
@@ -63,6 +68,7 @@ exports.createTicket = async (req, res) => {
         const [result] = await db.execute(query, params);
         console.log('Database Result:', result);
 
+        //send success response
         res.status(201).json({
             message: "Ticket created successfully",
             ticketId: serialNo,
@@ -81,9 +87,10 @@ exports.createTicket = async (req, res) => {
 };
 
 
-
+//brokers to respond to assigned tickets
 exports.respondToTicket = async (req, res) => {
     try {
+        //validate input data
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
@@ -160,6 +167,7 @@ exports.getBrokerTickets = async (req, res) => {
             AND assignee.is_active = 1
             ORDER BY t.created_at DESC`;
 
+        //executes query using broker ID     
         const [tickets] = await db.execute(query, [req.user.user_id]);
 
         console.log('Broker ID:', req.user.user_id);
@@ -172,6 +180,7 @@ exports.getBrokerTickets = async (req, res) => {
             });
         }
 
+        //return the formatted tickets
         res.status(200).json({
             success: true,
             tickets: tickets.map(ticket => ({
@@ -194,6 +203,56 @@ exports.getBrokerTickets = async (req, res) => {
         res.status(500).json({
             success: false,
             message: "Internal server error while fetching broker tickets"
+        });
+    }
+};
+exports.getTicketById = async (req, res) => {
+    try {
+        const { serialNo } = req.params;
+
+        const query = `
+            SELECT t.*, 
+                   creator.username as creator_name,
+                   assignee.username as assignee_name
+            FROM ticket t
+            LEFT JOIN users creator ON t.created_by = creator.user_id
+            LEFT JOIN users assignee ON t.assigned_to = assignee.user_id
+            WHERE t.serial_no = ?`;
+
+        const [tickets] = await db.execute(query, [serialNo]);
+
+        if (tickets.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Ticket not found"
+            });
+        }
+
+        const ticket = tickets[0];
+
+        res.json({
+            success: true,
+            ticket: {
+                serial_no: ticket.serial_no,
+                client_name: ticket.client_name,
+                client_address: ticket.client_address,
+                email: ticket.email,
+                phone_number: ticket.phone_number,
+                amount: ticket.amount,
+                status: ticket.status,
+                created_at: ticket.created_at,
+                updated_at: ticket.updated_at,
+                assigned_at: ticket.assigned_at,
+                creator: ticket.creator_name,
+                assignee: ticket.assignee_name
+            }
+        });
+
+    } catch (error) {
+        console.error('Get Ticket Error:', error);
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch ticket details"
         });
     }
 };

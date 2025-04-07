@@ -2,22 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ticketService } from '../services/ticketService';
 import Footer from '../Headers, Footer/Footer';
-import './LogView.css';
+import './logView.css';
 
 function LogView() {
+    //state variables to manage tickets, loading state, and error messages
     const [tickets, setTickets] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const navigate = useNavigate();
-
+    //fetch tickets from the backend using the ticketService
     const fetchTickets = async () => {
         try {
             setLoading(true);
             setError('');
-            const data = await ticketService.getBrokerTickets();
+            const data = await ticketService.getBrokerTickets();  //call service to get tickets
             
             if (data.success) {
-                setTickets(data.tickets);
+                setTickets(data.tickets); //update stae with tickets
             } else {
                 setError(data.message || 'Failed to fetch tickets');
             }
@@ -27,20 +28,20 @@ function LogView() {
             setLoading(false);
         }
     };
-
+    //fetch tickets when the component mounts
     useEffect(() => {
         fetchTickets();
     }, []);
-
+    ///navigate to the detailed ticket view when a ticket is clicked
     const handleTicketClick = (serialNo) => {
         navigate(`/display-ticket/${serialNo}`);
     };
-
+    //format the date
     const formatDate = (dateString) => {
         if (!dateString) return 'N/A';
         return new Date(dateString).toLocaleString();
     };
-
+    //format the amount
     const formatAmount = (amount) => {
         return new Intl.NumberFormat('en-US', {
             style: 'currency',
@@ -52,13 +53,6 @@ function LogView() {
         <div className="page-wrapper">
             <div className="logs-container">
                 <h2>My Assigned Tickets</h2>
-                <button 
-                    className="fetch-logs-btn"
-                    onClick={fetchTickets}
-                    disabled={loading}
-                >
-                    {loading ? 'Refreshing...' : 'Refresh Tickets'}
-                </button>
 
                 {error && <div className="error-message">{error}</div>}
 

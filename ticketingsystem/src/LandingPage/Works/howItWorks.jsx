@@ -1,33 +1,35 @@
 import React from 'react';
+import './howItWorks.css'; 
 
 function HowItWorks() {
-    return (
-      <section className="how-it-works-section" id='howitwork'> {/* Add className for styling */}
-        <div className="how-it-works-content"> {/* Use CSS Grid or Flexbox */}
-          <div className="how-it-works-text">
-            <h2>How It Works</h2>
-            <div>
-              <h3>Admin Registration</h3>
-              <p>Admin creates user accounts for Financial Planners and Mortgage Brokers.</p>
-            </div>
-            <div>
-              <h3>Ticket Creation</h3>
-              <p>Financial Planners and Mortgage Brokers create client-related tickets.</p>
-            </div>
-            <div>
-              <h3>Ticket Submission & Tracking</h3>
-              <p>Tickets are assigned to the relevant user for processing.</p>
-            </div>
-            <button className="get-started-button">Get Started</button>
-          </div>
-          <div className="how-it-works-image">
-            {/* Replace with your actual image path */}
-            <img src="/path/to/your/workflow-image.png" alt="Workflow illustration" />
-            {/* Or use a placeholder if you don't have the image yet */}
-            {/* <div style={{ width: '100%', height: '300px', backgroundColor: '#ccc', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Image Placeholder</div> */}
-          </div>
+  return (
+    <section className="how-it-works-section" id="howitwork">
+      <h2 className="section-title">How It Works</h2>
+      <div className="how-it-works-content">
+      
+        <div className="step-card">
+          <div className="step-number">1</div>
+          <h3>Admin Registration</h3>
+          <p>Admin creates user accounts for Financial Planners and Mortgage Brokers.</p>
         </div>
-      </section>
-    );
+
+        <div className="step-card">
+          <div className="step-number">2</div>
+          <h3>Ticket Creation</h3>
+          <p>Financial Planners and Mortgage Brokers create client-related tickets.</p>
+        </div>
+
+      
+        <div className="step-card">
+          <div className="step-number">3</div>
+          <h3>Ticket Submission & Tracking</h3>
+          <p>Tickets are assigned to the relevant user for processing.</p>
+        </div>
+      </div>
+
+    
+    </section>
+  );
 }
+
 export default HowItWorks;

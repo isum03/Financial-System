@@ -1,33 +1,41 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './formTicket.css';
+import './CreateTicketForm.css';
 import Footer from '../Headers, Footer/Footer';
 import { ticketService } from '../services/ticketService';
 
+//functionality of creating ticket
 function CreateTicketForm() {
+  //use for navigation
   const navigate = useNavigate();
+  //use for storing form data in inputs
   const [formData, setFormData] = useState({
-    clientName: '',        // Changed from client_name
-    clientAddress: '',     // Changed from client_address
+    clientName: '',        
+    clientAddress: '',     
     email: '',            
-    phoneNumber: '',       // Changed from phone_number
+    phoneNumber: '',       
     amount: '',           
     assignedTo: ''   
   });
+  //use for storing error messages
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  //handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
+  //prevent invalid characters in amount input
     if (name === 'amount') {
       if (!/^\d*\.?\d*$/.test(value)) return;
     }
+    //update form data state
     setFormData(prevState => ({
       ...prevState,
       [name]: value
     }));
   };
 
+  //handle form submissionm
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -65,6 +73,7 @@ function CreateTicketForm() {
     }
 
     try {
+      // Call the ticket service to create a ticket
         const data = await ticketService.createTicket(formData);
         console.log('Response:', data);
         alert('Ticket created successfully');
@@ -74,35 +83,22 @@ function CreateTicketForm() {
     } finally {
         setLoading(false);
     }
-};
-
-const goBack = () => {
-  navigate(-1); // This will go back to the previous page
-};
+  };
+  //guide back to the previous page
+  const goBack = () => {
+    navigate(-1); 
+  };
 
   return (
     <div className="page-wrapper">
       <div className="create-ticket-container">
         <h1 className="form-title">Create Ticket</h1>
         <p className="form-subtitle">Enter ticket details</p>
-
+        {/*display error messages*/}
         {error && <div className="error-message">{error}</div>}
-
+        {/*ticket creation form*/}
         <form className="ticket-form" onSubmit={handleSubmit}>
-      {/*}    <div className="form-group">
-            <label htmlFor="serial_no" className="form-label">Serial Number:</label>
-            <input
-              type="text"
-              id="serial_no"
-              name="serial_no"
-              className="form-input"
-              value={formData.serial_no}
-              onChange={handleChange}
-              required
-              maxLength={20}
-            />
-          </div>*/}
-
+      
           <div className="form-group">
             <label htmlFor="client_name" className="form-label">Client Name:</label>
             <input
@@ -174,20 +170,20 @@ const goBack = () => {
             />
           </div>
           <div className="form-group">
-    <label htmlFor="assigned_to" className="form-label">Assign To (User ID):</label>
-    <input
-      type="text"
-      id="assignedTo"
-      name="assignedTo"      // Changed from assignedTo
-      className="form-input"
-      value={formData.assignedTo}
-      onChange={handleChange}
-      required
-      placeholder="Enter Broker's ID"
-      inputMode="numeric"
-      pattern="\d+"
-    />
-  </div>
+            <label htmlFor="assigned_to" className="form-label">Assign To (User ID):</label>
+            <input
+              type="text"
+              id="assignedTo"
+              name="assignedTo"      
+              className="form-input"
+              value={formData.assignedTo}
+              onChange={handleChange}
+              required
+              placeholder="Enter Broker's ID"
+              inputMode="numeric"
+              pattern="\d+"
+            />
+          </div>
 
           <div className="form-actions">
             <button 
