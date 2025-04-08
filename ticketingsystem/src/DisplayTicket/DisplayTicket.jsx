@@ -65,7 +65,7 @@ const DisplayTicket = () => {
           <DetailRow label="Client Name" value={ticket.client_name} />
           <DetailRow label="Client Address" value={ticket.client_address} />
 
-          <h2 className="section-heading">Contact Details</h2>
+          <h3 className="section-heading-create">Contact Details</h3>
           <DetailRow label="Email" value={ticket.email} />
           <DetailRow label="Phone Number" value={ticket.phone_number} />
           <DetailRow label="Amount" value={`$${parseFloat(ticket.amount).toLocaleString()}`} />
@@ -73,6 +73,9 @@ const DisplayTicket = () => {
           <DetailRow label="Created At" value={new Date(ticket.created_at).toLocaleString()} />
         </section>
       </section>
+      <button className="goBack-button" onClick={() => navigate(-1)}>
+        Go Back
+      </button>
       <Footer />
     </div>
   );

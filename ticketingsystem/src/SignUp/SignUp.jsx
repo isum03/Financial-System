@@ -56,7 +56,7 @@ function SignUp() {
     <div className="page-wrapper">
       <div className="signup-container">
         <h1 className="signup-title">Sign Up</h1>
-        <p className="signup-subtitle">Create a account</p>
+        <h4 className="signup-subtitle">Create a account</h4>
 
         {error && <div className="error-message">{error}</div>}
 

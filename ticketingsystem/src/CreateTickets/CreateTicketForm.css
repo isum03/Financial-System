@@ -9,7 +9,7 @@
   max-width: 600px;
     margin: 2rem auto;
     padding: 2rem;
-    background-color: #fff;
+    background-color: #efaaf0;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -37,9 +37,9 @@
 }
   
 .form-label {
-  flex-basis: 150px; /* Fixed width for labels */
-  text-align: left; /* Align label text to the left (as per image) */
-  font-weight: 500; /* Slightly bolder labels */
+  flex-basis: 150px; 
+  text-align: left; 
+  font-weight: 500; 
   font-size: 1rem;
   color: #333;
 }
@@ -62,23 +62,23 @@
   
 .form-input:focus {
   outline: none;
-  border-color: #80bdff; /* Highlight focus */
+  border-color: #80bdff;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-  background-color: #fff; /* Change background on focus */
+  background-color: #fff; 
 }
   
 .contact-details-heading {
   font-size: 1.3rem;
   font-weight: bold;
-  margin-top: 40px; /* Space above the heading */
+  margin-top: 40px;
   margin-bottom: 25px;
 }
   
 .form-actions {
   display: flex;
-  justify-content: flex-end; /* Align buttons to the right */
-  gap: 15px; /* Space between buttons */
-  margin-top: 40px; /* Space above buttons */
+  justify-content: flex-end; 
+  gap: 15px; 
+  margin-top: 40px; 
 }
   
 .cancel-button,

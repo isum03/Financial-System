@@ -10,10 +10,10 @@ import Header from './Headers, Footer/Header.jsx'
 import Footer from './Headers, Footer/Footer.jsx'
 import Login from './Login/Login.jsx'
 import CreateTicketForm from './CreateTickets/CreateTicketForm.jsx'
-import DisplayTicket from './DisplayTicket/DisplayTicket.jsx'  // Changed from './displayTicket/displayTicket.jsx'
-import Register from './SignUp/SignUp.jsx' // Assuming you have a Register component
+import DisplayTicket from './DisplayTicket/DisplayTicket.jsx' 
+import Register from './SignUp/SignUp.jsx' 
 import Dashboard from './Dashboard/Dashboard';
-import LogView from './LogView/LogView.jsx' // Assuming you have a LogView component
+import LogView from './LogView/LogView.jsx' 
 import ForgotPassword from './Login/ForgotPassword.jsx';
 import { authService } from './services/auth.jsx';
 
@@ -48,7 +48,7 @@ function App() {
           <Route path="/create-ticket" element={<CreateTicketForm />} />
           <Route path="/display-ticket" element={<DisplayTicket />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/register" element={<Register />} /> {/* You'll need to create this component */}
+          <Route path="/register" element={<Register />} />
           <Route path="/ticket-logs" element={<LogView />} />
           <Route path="/display-ticket/:id" element={<DisplayTicket />} />
           

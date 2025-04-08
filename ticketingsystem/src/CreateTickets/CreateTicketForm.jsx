@@ -126,7 +126,7 @@ function CreateTicketForm() {
             />
           </div>
 
-          <h2 className="contact-details-heading">Contact Details:</h2>
+          <p className="contact-details-heading">Contact Details:</p>
           
           <div className="form-group">
             <label htmlFor="email" className="form-label">Email:</label>

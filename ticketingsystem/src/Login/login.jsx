@@ -71,12 +71,18 @@ function Login() {
   return (
     <div className="page-wrapper">
       <div className="signin-page-container">
-        <h1 className="signin-title">Welcome Back</h1>
-        <p className="signin-subtitle">Login to your account</p>
-
-        {error && <div className="error-message">{error}</div>}
-
-        <div className="form-container">
+        
+        {/* Left Section: Title and Subtitle */}
+        <div className="left-section">
+          <h1 className="signin-title">Welcome To FPLANNER</h1>
+          <p className="signin-subtitle">
+            Login to your account, feel the difference.
+          </p>
+        </div>
+  
+        {/* Right Section: Login Form */}
+        <div className="right-section">
+          {error && <div className="error-message">{error}</div>}
           <form onSubmit={handleSubmit} className="signin-form">
             <div className="form-group">
               <label htmlFor="email" className="form-label">Email</label>
@@ -91,7 +97,7 @@ function Login() {
                 required
               />
             </div>
-
+  
             <div className="form-group">
               <label htmlFor="password" className="form-label">Password</label>
               <input
@@ -105,13 +111,13 @@ function Login() {
                 required
               />
             </div>
-
+  
             <button type="submit" className="signin-button">
               Sign In
             </button>
-
+  
             <Link to="/forgot-password" className="forgot-link">
-                    Forgot password?
+              Forgot password?
             </Link>
           </form>
         </div>
@@ -119,6 +125,7 @@ function Login() {
       <Footer />
     </div>
   );
+  
 }
 
 export default Login;

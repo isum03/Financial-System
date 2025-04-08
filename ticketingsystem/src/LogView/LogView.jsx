@@ -48,7 +48,10 @@ function LogView() {
             currency: 'USD'
         }).format(amount);
     };
-
+    //guide back to the previous page
+    const goBack = () => {
+        navigate(-1); 
+    };
     return (
         <div className="page-wrapper">
             <div className="logs-container">
@@ -103,6 +106,13 @@ function LogView() {
                     </div>
                 )}
             </div>
+            <button 
+              type="button" 
+              className="goBack-button" 
+              onClick={goBack}
+            >
+              goBack
+            </button>
             <Footer />
         </div>
     );

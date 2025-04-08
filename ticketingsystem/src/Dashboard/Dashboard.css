@@ -20,9 +20,9 @@
   max-width: 1200px;
   padding: 20px;
 }
-  
+
 .cardC, .cardD {
-  background-color: lightgray;
+  background:linear-gradient(135deg, #e4a6ec, #4c46ec);
   padding: 30px;
   width: 350px;
   height: 350px;
